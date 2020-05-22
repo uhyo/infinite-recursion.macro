@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`macros 1. macros: 1. macros 1`] = `
+exports[`macros basic: basic 1`] = `
 
 import rec from '../../infinite-recursion.macro'
 
@@ -10,8 +10,133 @@ console.log(rec(function sumTo(num){
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
+import { runRecursive as _runRecursive } from "../../infinite-recursion.macro/lib/runtime";
 console.log(
-  rec(function* sumTo(num) {
+  _runRecursive(function* sumTo(num) {
+    return num <= 0 ? 0 : num + (yield [num - 1]);
+  }, 1e7)
+);
+
+
+`;
+
+exports[`macros bothNamedAndDefault: bothNamedAndDefault 1`] = `
+
+import rec1, { rec as rec2 } from '../../infinite-recursion.macro'
+
+console.log(rec1(function sumTo(num){
+  return num <= 0 ? 0 : num + sumTo(num - 1);
+}, 1e7));
+console.log(rec2(function fib(num){
+  return num <= 1 ? num : fib(num - 1) + fib(num - 2)
+}, 1e7));
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import { runRecursive as _runRecursive } from "../../infinite-recursion.macro/lib/runtime";
+console.log(
+  _runRecursive(function* sumTo(num) {
+    return num <= 0 ? 0 : num + (yield [num - 1]);
+  }, 1e7)
+);
+console.log(
+  _runRecursive(function* fib(num) {
+    return num <= 1 ? num : (yield [num - 1]) + (yield [num - 2]);
+  }, 1e7)
+);
+
+
+`;
+
+exports[`macros multipleRecs: multipleRecs 1`] = `
+
+import rec from '../../infinite-recursion.macro'
+
+console.log(rec(function sumTo(num){
+  return num <= 0 ? 0 : num + sumTo(num - 1);
+}, 1e7));
+console.log(rec(function fib(num){
+  return num <= 1 ? num : fib(num - 1) + fib(num - 2)
+}, 1e7));
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import { runRecursive as _runRecursive } from "../../infinite-recursion.macro/lib/runtime";
+console.log(
+  _runRecursive(function* sumTo(num) {
+    return num <= 0 ? 0 : num + (yield [num - 1]);
+  }, 1e7)
+);
+console.log(
+  _runRecursive(function* fib(num) {
+    return num <= 1 ? num : (yield [num - 1]) + (yield [num - 2]);
+  }, 1e7)
+);
+
+
+`;
+
+exports[`macros multipleReferencesInOneRec: multipleReferencesInOneRec 1`] = `
+
+import rec from '../../infinite-recursion.macro'
+
+console.log(rec(function fib(num){
+  return num <= 1 ? num : fib(num - 1) + fib(num - 2)
+}, 1e7));
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import { runRecursive as _runRecursive } from "../../infinite-recursion.macro/lib/runtime";
+console.log(
+  _runRecursive(function* fib(num) {
+    return num <= 1 ? num : (yield [num - 1]) + (yield [num - 2]);
+  }, 1e7)
+);
+
+
+`;
+
+exports[`macros named: named 1`] = `
+
+import { rec } from '../../infinite-recursion.macro'
+
+console.log(rec(function sumTo(num){
+  return num <= 0 ? 0 : num + sumTo(num - 1);
+}, 1e7));
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import { runRecursive as _runRecursive } from "../../infinite-recursion.macro/lib/runtime";
+console.log(
+  _runRecursive(function* sumTo(num) {
+    return num <= 0 ? 0 : num + (yield [num - 1]);
+  }, 1e7)
+);
+
+
+`;
+
+exports[`macros nested: nested 1`] = `
+
+import { rec } from '../../infinite-recursion.macro'
+
+console.log(rec(function sumTo(num){
+  const f = rec(function fib(num){
+    return num <= 1 ? num : fib(num - 1) + fib(num - 2)
+  }, 1e5);
+
+  return num <= 0 ? 0 : num + sumTo(num - 1);
+}, 1e7));
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import { runRecursive as _runRecursive } from "../../infinite-recursion.macro/lib/runtime";
+console.log(
+  _runRecursive(function* sumTo(num) {
+    const f = _runRecursive(function* fib(num) {
+      return num <= 1 ? num : (yield [num - 1]) + (yield [num - 2]);
+    }, 1e5);
+
     return num <= 0 ? 0 : num + (yield [num - 1]);
   }, 1e7)
 );

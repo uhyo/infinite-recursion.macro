@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`macros globalName: globalName 1`] = `
+
+import rec from '../../infinite-recursion.macro'
+const _runRecursive = 3;
+
+console.log(rec(function sumTo(num){
+  return num <= 0 ? 0 : num + sumTo(num - 1);
+}, 1e7));
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import { runRecursive as _runRecursive2 } from "../../infinite-recursion.macro/lib/runtime";
+const _runRecursive = 3;
+console.log(
+  _runRecursive2(function* sumTo(num) {
+    return num <= 0 ? 0 : num + (yield [num - 1]);
+  }, 1e7)
+);
+
+
+`;
+
+exports[`macros local: local 1`] = `
+
+import rec from '../../infinite-recursion.macro'
+
+console.log(rec(function sumTo(num){
+  const _runRecursive = 3;
+  return num <= 0 ? 0 : num + sumTo(num - 1);
+}, 1e7));
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import { runRecursive as _runRecursive2 } from "../../infinite-recursion.macro/lib/runtime";
+console.log(
+  _runRecursive2(function* sumTo(num) {
+    const _runRecursive = 3;
+    return num <= 0 ? 0 : num + (yield [num - 1]);
+  }, 1e7)
+);
+
+
+`;
