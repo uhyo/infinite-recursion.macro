@@ -6,7 +6,8 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc --watch",
-    "test": "jest"
+    "test": "jest",
+    "test:update": "jest -u"
   },
   "keywords": [
     "bebel-plugin-macros"
@@ -18,7 +19,9 @@
   },
   "devDependencies": {
     "@babel/core": "^7.9.6",
+    "@babel/types": "^7.9.6",
     "@types/babel-plugin-macros": "^2.8.1",
+    "@types/babel-types": "^7.0.7",
     "@types/node": "^14.0.5",
     "babel-plugin-tester": "^9.1.0",
     "jest": "^26.0.1",

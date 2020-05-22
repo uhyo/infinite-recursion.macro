@@ -11,8 +11,8 @@ console.log(rec(function sumTo(num){
       ↓ ↓ ↓ ↓ ↓ ↓
 
 console.log(
-  rec(function sumTo(num) {
-    return num <= 0 ? 0 : num + sumTo(num - 1);
+  rec(function* sumTo(num) {
+    return num <= 0 ? 0 : num + (yield [num - 1]);
   }, 1e7)
 );
 
