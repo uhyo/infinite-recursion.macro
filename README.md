@@ -1,0 +1,1 @@
+A [Babel Macro](https://github.com/kentcdodds/babel-plugin-macros) that allows your functions to recurse infinitely.
