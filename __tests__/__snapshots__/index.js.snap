@@ -10,7 +10,7 @@ console.log(rec(function sumTo(num){
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-import { runRecursive as _runRecursive } from "../../infinite-recursion.macro/lib/runtime";
+import { runRecursive as _runRecursive } from "../../infinite-recursion.macro/lib/runtime.js";
 console.log(
   _runRecursive(function* sumTo(num) {
     return num <= 0 ? 0 : num + (yield [num - 1]);
@@ -33,7 +33,7 @@ console.log(rec2(function fib(num){
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-import { runRecursive as _runRecursive } from "../../infinite-recursion.macro/lib/runtime";
+import { runRecursive as _runRecursive } from "../../infinite-recursion.macro/lib/runtime.js";
 console.log(
   _runRecursive(function* sumTo(num) {
     return num <= 0 ? 0 : num + (yield [num - 1]);
@@ -61,7 +61,7 @@ console.log(rec(function fib(num){
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-import { runRecursive as _runRecursive } from "../../infinite-recursion.macro/lib/runtime";
+import { runRecursive as _runRecursive } from "../../infinite-recursion.macro/lib/runtime.js";
 console.log(
   _runRecursive(function* sumTo(num) {
     return num <= 0 ? 0 : num + (yield [num - 1]);
@@ -86,7 +86,7 @@ console.log(rec(function fib(num){
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-import { runRecursive as _runRecursive } from "../../infinite-recursion.macro/lib/runtime";
+import { runRecursive as _runRecursive } from "../../infinite-recursion.macro/lib/runtime.js";
 console.log(
   _runRecursive(function* fib(num) {
     return num <= 1 ? num : (yield [num - 1]) + (yield [num - 2]);
@@ -106,7 +106,7 @@ console.log(rec(function sumTo(num){
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-import { runRecursive as _runRecursive } from "../../infinite-recursion.macro/lib/runtime";
+import { runRecursive as _runRecursive } from "../../infinite-recursion.macro/lib/runtime.js";
 console.log(
   _runRecursive(function* sumTo(num) {
     return num <= 0 ? 0 : num + (yield [num - 1]);
@@ -130,7 +130,7 @@ console.log(rec(function sumTo(num){
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-import { runRecursive as _runRecursive } from "../../infinite-recursion.macro/lib/runtime";
+import { runRecursive as _runRecursive } from "../../infinite-recursion.macro/lib/runtime.js";
 console.log(
   _runRecursive(function* sumTo(num) {
     const f = _runRecursive(function* fib(num) {

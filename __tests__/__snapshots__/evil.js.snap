@@ -11,7 +11,7 @@ console.log(rec(function sumTo(num){
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-import { runRecursive as _runRecursive2 } from "../../infinite-recursion.macro/lib/runtime";
+import { runRecursive as _runRecursive2 } from "../../infinite-recursion.macro/lib/runtime.js";
 const _runRecursive = 3;
 console.log(
   _runRecursive2(function* sumTo(num) {
@@ -33,7 +33,7 @@ console.log(rec(function sumTo(num){
 
       ↓ ↓ ↓ ↓ ↓ ↓
 
-import { runRecursive as _runRecursive2 } from "../../infinite-recursion.macro/lib/runtime";
+import { runRecursive as _runRecursive2 } from "../../infinite-recursion.macro/lib/runtime.js";
 console.log(
   _runRecursive2(function* sumTo(num) {
     const _runRecursive = 3;
