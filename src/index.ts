@@ -17,11 +17,11 @@ import { importRuntime } from "./importRuntime";
 // `source` is not in @types/babel-plugin-macros :(
 // @ts-expect-error
 export = createMacro(({ references, state, babel, source }) => {
-  const recFuncReferences = [
+  const recFuncReferences = [...(references.rec || [])];
+  const infiniteFuncReferences = [
     ...(references.default || []),
-    ...(references.rec || []),
+    ...(references.infinite || []),
   ];
-  const infiniteFuncReferences = references.infinite || [];
   for (const path of recFuncReferences) {
     const { node, parentPath } = path;
     if (parentPath.isCallExpression() && parentPath.node.callee === node) {

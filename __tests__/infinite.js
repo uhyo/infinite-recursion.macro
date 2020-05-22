@@ -7,21 +7,21 @@ pluginTester({
   babelOptions: { filename: __filename },
   tests: {
     basic: `
-      import { infinite } from '../../infinite-recursion.macro'
+      import infinite from '../../infinite-recursion.macro'
 
       const sumTo = infinite(function sumTo(num) {
         return num <= 0 ? 0 : num + sumTo(num - 1);
       })
     `,
     multipleReferencesInOneRec: `
-      import { infinite } from '../../infinite-recursion.macro'
+      import infinite from '../../infinite-recursion.macro'
 
       const fib = infinite(function fib(num){
         return num <= 1 ? num : fib(num - 1) + fib(num - 2)
       });
     `,
     multipleRecs: `
-      import { infinite } from '../../infinite-recursion.macro'
+      import infinite from '../../infinite-recursion.macro'
 
       const sumTo = infinite(function sumTo(num){
         return num <= 0 ? 0 : num + sumTo(num - 1);
@@ -29,6 +29,13 @@ pluginTester({
       const fib = infinite(function fib(num){
         return num <= 1 ? num : fib(num - 1) + fib(num - 2)
       });
+    `,
+    named: `
+      import { infinite } from '../../infinite-recursion.macro'
+
+      const sumTo = infinite(function sumTo(num) {
+        return num <= 0 ? 0 : num + sumTo(num - 1);
+      })
     `,
     nested: `
       import { infinite } from '../../infinite-recursion.macro'
@@ -39,6 +46,16 @@ pluginTester({
         });
 
         return num <= 0 ? 0 : num + sumTo(num - 1);
+      });
+    `,
+    bothNamedAndDefault: `
+      import infinite1, { infinite as infinite2 } from '../../infinite-recursion.macro'
+
+      const sumTo = infinite1(function sumTo(num){
+        return num <= 0 ? 0 : num + sumTo(num - 1);
+      });
+      const fib = infinite2(function fib(num){
+        return num <= 1 ? num : fib(num - 1) + fib(num - 2)
       });
     `,
   },

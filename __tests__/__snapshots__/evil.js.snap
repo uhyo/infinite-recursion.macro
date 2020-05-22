@@ -2,7 +2,7 @@
 
 exports[`macros globalName: globalName 1`] = `
 
-import rec from '../../infinite-recursion.macro'
+import { rec } from '../../infinite-recursion.macro'
 const _runRecursive = 3;
 
 console.log(rec(function sumTo(num){
@@ -24,7 +24,7 @@ console.log(
 
 exports[`macros local: local 1`] = `
 
-import rec from '../../infinite-recursion.macro'
+import { rec } from '../../infinite-recursion.macro'
 
 console.log(rec(function sumTo(num){
   const _runRecursive = 3;

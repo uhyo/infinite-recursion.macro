@@ -3,4 +3,8 @@ export declare const rec: <Args extends any[], Ret>(
   ...args: Args
 ) => Ret;
 
-export default rec;
+export declare const infinite: <F extends (...args: any[]) => any>(
+  func: F
+) => F;
+
+export default infinite;

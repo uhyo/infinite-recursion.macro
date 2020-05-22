@@ -7,7 +7,7 @@ pluginTester({
   babelOptions: { filename: __filename },
   tests: {
     globalName: `
-      import rec from '../../infinite-recursion.macro'
+      import { rec } from '../../infinite-recursion.macro'
       const _runRecursive = 3;
 
       console.log(rec(function sumTo(num){
@@ -15,7 +15,7 @@ pluginTester({
       }, 1e7));
     `,
     local: `
-      import rec from '../../infinite-recursion.macro'
+      import { rec } from '../../infinite-recursion.macro'
 
       console.log(rec(function sumTo(num){
         const _runRecursive = 3;
