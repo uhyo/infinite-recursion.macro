@@ -1,10 +1,10 @@
+import type { NodePath } from "@babel/traverse";
 import {
-  Program,
   ImportDeclaration,
   importDeclaration,
+  Program,
   stringLiteral,
 } from "@babel/types";
-import type { Scope, NodePath } from "@babel/traverse";
 
 const importDeclarationMap = new WeakMap<Program, ImportDeclaration>();
 
@@ -20,7 +20,7 @@ export function importRuntime(
   if (cache) {
     return cache;
   }
-  const decl = importDeclaration([], stringLiteral(`${source}/lib/runtime`));
+  const decl = importDeclaration([], stringLiteral(`${source}/lib/runtime.js`));
   importDeclarationMap.set(program, decl);
   // add it to program
   program.body.unshift(decl);
