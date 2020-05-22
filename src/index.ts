@@ -1,9 +1,17 @@
 import { NodePath } from "@babel/core";
+import {
+  FunctionExpression,
+  isFunctionExpression,
+  Program,
+} from "@babel/types";
 import { createMacro } from "babel-plugin-macros";
-import { isFunctionExpression, FunctionExpression } from "@babel/types";
 import { handleRecFunc } from "./handleRecFunc";
+import { importInDecl } from "./importInDecl";
+import { importRuntime } from "./importRuntime";
 
-export = createMacro(({ references, state, babel }) => {
+// `source` is not in @types/babel-plugin-macros :(
+// @ts-expect-error
+export = createMacro(({ references, state, babel, source }) => {
   const recFuncReferences = [
     ...(references.default || []),
     ...(references.rec || []),
@@ -33,7 +41,22 @@ export = createMacro(({ references, state, babel }) => {
       const funcPath = (parentPath.get("arguments.0") as unknown) as NodePath<
         FunctionExpression
       >;
-      handleRecFunc(firstArg.id, funcPath);
+      const res = handleRecFunc(firstArg.id, funcPath);
+      if (!res) {
+        continue;
+      }
+      // wrap with runtime
+      const programScope = path.scope.getProgramParent();
+      programScope.path;
+      const programPath = programScope.path as NodePath<Program>;
+      const importDecl = importRuntime(programPath, source);
+      const runRecursiveLoc = importInDecl(
+        importDecl,
+        programScope,
+        "runRecursive"
+      );
+      // replace rec(...) with runRecursive(...)
+      path.replaceWith(runRecursiveLoc);
     }
   }
 });
