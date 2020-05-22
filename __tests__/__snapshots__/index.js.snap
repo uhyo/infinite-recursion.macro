@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`macros 1. macros: 1. macros 1`] = `
+
+import rec from '../../infinite-recursion.macro'
+
+console.log(rec(function sumTo(num){
+  return num <= 0 ? 0 : num + sumTo(num - 1);
+}, 1e7));
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+console.log(
+  rec(function sumTo(num) {
+    return num <= 0 ? 0 : num + sumTo(num - 1);
+  }, 1e7)
+);
+
+
+`;
