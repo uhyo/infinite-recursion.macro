@@ -1,0 +1,92 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`macros basic: basic 1`] = `
+
+import { infinite } from '../../infinite-recursion.macro'
+
+const sumTo = infinite(function sumTo(num) {
+  return num <= 0 ? 0 : num + sumTo(num - 1);
+})
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import { makeInfinite as _makeInfinite } from "../../infinite-recursion.macro/lib/runtime.js";
+
+const sumTo = _makeInfinite(function* sumTo(num) {
+  return num <= 0 ? 0 : num + (yield [num - 1]);
+});
+
+
+`;
+
+exports[`macros multipleRecs: multipleRecs 1`] = `
+
+import { infinite } from '../../infinite-recursion.macro'
+
+const sumTo = infinite(function sumTo(num){
+  return num <= 0 ? 0 : num + sumTo(num - 1);
+});
+const fib = infinite(function fib(num){
+  return num <= 1 ? num : fib(num - 1) + fib(num - 2)
+});
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import { makeInfinite as _makeInfinite } from "../../infinite-recursion.macro/lib/runtime.js";
+
+const sumTo = _makeInfinite(function* sumTo(num) {
+  return num <= 0 ? 0 : num + (yield [num - 1]);
+});
+
+const fib = _makeInfinite(function* fib(num) {
+  return num <= 1 ? num : (yield [num - 1]) + (yield [num - 2]);
+});
+
+
+`;
+
+exports[`macros multipleReferencesInOneRec: multipleReferencesInOneRec 1`] = `
+
+import { infinite } from '../../infinite-recursion.macro'
+
+const fib = infinite(function fib(num){
+  return num <= 1 ? num : fib(num - 1) + fib(num - 2)
+});
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import { makeInfinite as _makeInfinite } from "../../infinite-recursion.macro/lib/runtime.js";
+
+const fib = _makeInfinite(function* fib(num) {
+  return num <= 1 ? num : (yield [num - 1]) + (yield [num - 2]);
+});
+
+
+`;
+
+exports[`macros nested: nested 1`] = `
+
+import { infinite } from '../../infinite-recursion.macro'
+
+const sumTo = infinite(function sumTo(num){
+  const f = infinite(function fib(num){
+    return num <= 1 ? num : fib(num - 1) + fib(num - 2)
+  });
+
+  return num <= 0 ? 0 : num + sumTo(num - 1);
+});
+
+      ↓ ↓ ↓ ↓ ↓ ↓
+
+import { makeInfinite as _makeInfinite } from "../../infinite-recursion.macro/lib/runtime.js";
+
+const sumTo = _makeInfinite(function* sumTo(num) {
+  const f = _makeInfinite(function* fib(num) {
+    return num <= 1 ? num : (yield [num - 1]) + (yield [num - 2]);
+  });
+
+  return num <= 0 ? 0 : num + (yield [num - 1]);
+});
+
+
+`;

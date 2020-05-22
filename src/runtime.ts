@@ -41,3 +41,14 @@ export function runRecursive<Args extends any[], Ret>(
   }
   return rootCaller.lastReturnValue as Ret;
 }
+
+/**
+ * Turn a function into an infinite-recursive one.
+ */
+export function makeInfinite<Args extends any[], Ret>(
+  func: (...args: Args) => Generator<Args, Ret, Ret>
+) {
+  return function (...args: Args): Ret {
+    return runRecursive(func, ...args);
+  };
+}
