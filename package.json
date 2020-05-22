@@ -1,6 +1,6 @@
 {
   "name": "infinite-recursion.macro",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "A [Babel Macro](https://github.com/kentcdodds/babel-plugin-macros) that allows your functions to recurse infinitely.",
   "main": "lib/index.js",
   "typings": "types.d.ts",
