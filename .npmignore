@@ -1,0 +1,8 @@
+/src
+/example
+/__tests__
+/.*
+/*.js
+/*.json
+*.tgz
+*.tsbuildinfo
