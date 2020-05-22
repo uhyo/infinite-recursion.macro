@@ -39,7 +39,6 @@ export const handleRecFunc = (
       ) {
         throw new MacroError("Unsupported argument type");
       }
-      type T = typeof args[number];
       const checkedArgs = args as Array<
         Exclude<typeof args[number], ArgumentPlaceholder | JSXNamespacedName>
       >;
