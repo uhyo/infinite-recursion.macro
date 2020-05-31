@@ -23,76 +23,84 @@ export = createMacro(({ references, state, babel, source }) => {
     ...(references.infinite || []),
   ];
   for (const path of recFuncReferences) {
-    const { node, parentPath } = path;
-    if (parentPath.isCallExpression() && parentPath.node.callee === node) {
-      // rec(...)
-      const { node: parent } = parentPath;
-      const args = parent.arguments;
-      if (args.length === 0) {
-        // invalid: rec()
-        continue;
-      }
-      const firstArg = args[0];
-      if (!checkForNamedFunctionExpression(firstArg)) {
-        continue;
-      }
-      const funcPath = (parentPath.get("arguments.0") as unknown) as NodePath<
-        FunctionExpression
-      >;
-      const res = handleRecFunc(firstArg.id, funcPath);
-      if (!res) {
-        continue;
-      }
-      // wrap with runtime
-      const programScope = path.scope.getProgramParent();
-      programScope.path;
-      const programPath = programScope.path as NodePath<Program>;
-      const importDecl = importRuntime(programPath, source);
-      const runRecursiveLoc = importInDecl(
-        importDecl,
-        programScope,
-        "runRecursive"
-      );
-      // replace rec(...) with runRecursive(...)
-      path.replaceWith(runRecursiveLoc);
-    }
+    convertRefFuncReference(path, source);
   }
   for (const path of infiniteFuncReferences) {
-    const { node, parentPath } = path;
-    if (parentPath.isCallExpression() && parentPath.node.callee === node) {
-      // infinite(...)
-      const { node: parent } = parentPath;
-      const args = parent.arguments;
-      if (args.length !== 1) {
-        // invalid
-        continue;
-      }
-      const [firstArg] = args;
-      if (!checkForNamedFunctionExpression(firstArg)) {
-        continue;
-      }
-      const funcPath = (parentPath.get("arguments.0") as unknown) as NodePath<
-        FunctionExpression
-      >;
-      const res = handleRecFunc(firstArg.id, funcPath);
-      if (!res) {
-        continue;
-      }
-      // wrap with runtime
-      const programScope = path.scope.getProgramParent();
-      programScope.path;
-      const programPath = programScope.path as NodePath<Program>;
-      const importDecl = importRuntime(programPath, source);
-      const runRecursiveLoc = importInDecl(
-        importDecl,
-        programScope,
-        "makeInfinite"
-      );
-      // replace infinite(...) with makeInfinite(...)
-      path.replaceWith(runRecursiveLoc);
-    }
+    convertInfiniteFuncReference(path, source);
   }
 });
+
+function convertRefFuncReference(path: NodePath, source: string) {
+  const { node, parentPath } = path;
+  if (parentPath.isCallExpression() && parentPath.node.callee === node) {
+    // rec(...)
+    const { node: parent } = parentPath;
+    const args = parent.arguments;
+    if (args.length === 0) {
+      // invalid: rec()
+      return;
+    }
+    const firstArg = args[0];
+    if (!checkForNamedFunctionExpression(firstArg)) {
+      return;
+    }
+    const funcPath = (parentPath.get("arguments.0") as unknown) as NodePath<
+      FunctionExpression
+    >;
+    const res = handleRecFunc(firstArg.id, funcPath);
+    if (!res) {
+      return;
+    }
+    // wrap with runtime
+    const programScope = path.scope.getProgramParent();
+    programScope.path;
+    const programPath = programScope.path as NodePath<Program>;
+    const importDecl = importRuntime(programPath, source);
+    const runRecursiveLoc = importInDecl(
+      importDecl,
+      programScope,
+      "runRecursive"
+    );
+    // replace rec(...) with runRecursive(...)
+    path.replaceWith(runRecursiveLoc);
+  }
+}
+
+function convertInfiniteFuncReference(path: NodePath, source: string) {
+  const { node, parentPath } = path;
+  if (parentPath.isCallExpression() && parentPath.node.callee === node) {
+    // infinite(...)
+    const { node: parent } = parentPath;
+    const args = parent.arguments;
+    if (args.length !== 1) {
+      // invalid
+      return;
+    }
+    const [firstArg] = args;
+    if (!checkForNamedFunctionExpression(firstArg)) {
+      return;
+    }
+    const funcPath = (parentPath.get("arguments.0") as unknown) as NodePath<
+      FunctionExpression
+    >;
+    const res = handleRecFunc(firstArg.id, funcPath);
+    if (!res) {
+      return;
+    }
+    // wrap with runtime
+    const programScope = path.scope.getProgramParent();
+    programScope.path;
+    const programPath = programScope.path as NodePath<Program>;
+    const importDecl = importRuntime(programPath, source);
+    const runRecursiveLoc = importInDecl(
+      importDecl,
+      programScope,
+      "makeInfinite"
+    );
+    // replace infinite(...) with makeInfinite(...)
+    path.replaceWith(runRecursiveLoc);
+  }
+}
 
 /**
  * Returns true if given FunctionExpression can be converted.

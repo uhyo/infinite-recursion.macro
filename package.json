@@ -15,6 +15,10 @@
     "bebel-plugin-macros"
   ],
   "author": "uhyo",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/uhyo/infinite-recursion.macro.git"
+  },
   "license": "MIT",
   "dependencies": {
     "babel-plugin-macros": "^2.8.0"
